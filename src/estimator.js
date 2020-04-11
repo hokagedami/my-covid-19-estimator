@@ -2,11 +2,14 @@
 const factorCalculator = (period, periodType) => {
   switch (periodType) {
     case 'days':
-      return parseInt((period / 3).toString(), 10);
+      // return parseInt((period / 3).toString(), 10);
+      return Math.floor(period / 3);
     case 'weeks':
-      return parseInt(((period * 7) / 3).toString(), 10);
+      // return parseInt(((period * 7) / 3).toString(), 10);
+      return Math.floor((period * 7) / 3);
     case 'months':
-      return parseInt(((period * 30) / 3).toString(), 10);
+      // return parseInt(((period * 30) / 3).toString(), 10);
+      return Math.floor((period * 30) / 3);
     default:
       return 0;
   }
