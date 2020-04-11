@@ -4,6 +4,7 @@
   "repository": "git@github.com:BuildforSDG-Cohort1-Assessment/covid-19-estimator-js.git",
   "license": "MIT",
   "private": false,
+  "type": "module",
   "scripts": {
     "lint": "eslint ./src/",
     "start": "node ./src/api/server.js"
