@@ -15,16 +15,9 @@ const factorCalculator = (period, periodType) => {
   }
 };
 
-// Function to replace Math.pow restriction by the linter
-const powerCalc = (x, y) => {
-  if (x !== 0) {
-    if (y === 0) return 1;
-    const multiples = new Array(y);
-    multiples.fill(x);
-    return multiples.reduce((a, b) => a * b, 1);
-  }
-  return 0;
-};
+
+// eslint-disable-next-line no-restricted-properties
+const powerCalc = (x, y) => Math.pow(x, y);
 
 // Impact Estimator function
 const impactEstimator = (data, severe) => {
