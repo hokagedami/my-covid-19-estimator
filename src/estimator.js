@@ -1,15 +1,12 @@
 // Function to calculate the date factor for infectionsByRequestedTime
-const factorCalculator = (period, periodType) => {
+const factorCalculator = (timeToElapse, periodType) => {
   switch (periodType) {
     case 'days':
-      // return parseInt((period / 3).toString(), 10);
-      return Math.floor(period / 3);
+      return Math.floor(timeToElapse / 3);
     case 'weeks':
-      // return parseInt(((period * 7) / 3).toString(), 10);
-      return Math.floor((period * 7) / 3);
+      return Math.floor((timeToElapse * 7) / 3);
     case 'months':
-      // return parseInt(((period * 30) / 3).toString(), 10);
-      return Math.floor((period * 30) / 3);
+      return Math.floor((timeToElapse * 30) / 3);
     default:
       return 0;
   }
@@ -23,21 +20,19 @@ const powerCalc = (x, y) => Math.pow(x, y);
 const impactEstimator = (data, severe) => {
   const currentlyInfected = severe ? data.reportedCases * 50
     : data.reportedCases * 10;
-  const { periodType } = data;
-  const period = data.timeToElapse;
+  const { periodType, totalHospitalBeds, timeToElapse } = data;
   const infectionsByRequestedTime = currentlyInfected
-    * powerCalc(2, factorCalculator(period, periodType));
+    * powerCalc(2, factorCalculator(timeToElapse, periodType));
   const severeCasesByRequestedTime = 0.15 * infectionsByRequestedTime;
-  const availableBeds = 0.35 * data.totalHospitalBeds;
+  const availableBeds = 0.35 * totalHospitalBeds;
   const hospitalBedsByRequestedTime = parseInt((availableBeds - severeCasesByRequestedTime)
     .toFixed(0), 10);
   const casesForICUByRequestedTime = parseInt((0.05 * infectionsByRequestedTime)
     .toFixed(0), 10);
   const casesForVentilatorsByRequestedTime = parseInt((0.02 * infectionsByRequestedTime)
     .toFixed(0), 10);
-  const dollarsInFlight = parseFloat((infectionsByRequestedTime * data.region.avgDailyIncomeInUSD
-    * data.region.avgDailyIncomePopulation * data.timeToElapse)
-    .toFixed(2));
+  const dollarsInFlight = parseInt((infectionsByRequestedTime * data.region.avgDailyIncomeInUSD
+    * data.region.avgDailyIncomePopulation * timeToElapse), 10);
   return {
     currentlyInfected,
     infectionsByRequestedTime,
