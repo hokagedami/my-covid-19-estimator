@@ -23,13 +23,13 @@ const impactEstimator = (data, severe) => {
   const { periodType, totalHospitalBeds, timeToElapse } = data;
   const infectionsByRequestedTime = currentlyInfected
     * powerCalc(2, factorCalculator(timeToElapse, periodType));
-  const severeCasesByRequestedTime = 0.15 * infectionsByRequestedTime;
-  const availableBeds = 0.35 * totalHospitalBeds;
+  const severeCasesByRequestedTime = (15 / 100) * infectionsByRequestedTime;
+  const availableBeds = (35 / 100) * totalHospitalBeds;
   const hospitalBedsByRequestedTime = Math.sign(availableBeds - severeCasesByRequestedTime) === -1
     ? parseInt((availableBeds - severeCasesByRequestedTime).toFixed(0), 10)
     : Math.floor(availableBeds - severeCasesByRequestedTime);
-  const casesForICUByRequestedTime = parseInt((0.05 * infectionsByRequestedTime), 10);
-  const casesForVentilatorsByRequestedTime = parseInt((0.02 * infectionsByRequestedTime)
+  const casesForICUByRequestedTime = parseInt(((5 / 100) * infectionsByRequestedTime), 10);
+  const casesForVentilatorsByRequestedTime = parseInt(((2 / 100) * infectionsByRequestedTime)
     .toFixed(0), 10);
   const dollarsInFlight = Math.sign(infectionsByRequestedTime * data.region.avgDailyIncomeInUSD
     * data.region.avgDailyIncomePopulation * timeToElapse) === -1
