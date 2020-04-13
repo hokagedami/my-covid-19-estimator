@@ -44,7 +44,7 @@ const impactEstimator = (data, severe) => {
   const casesForVentilatorsByRequestedTime = Math.trunc(0.02 * infectionsByRequestedTime);
   const dollarsInFlight = Math.trunc((infectionsByRequestedTime
     * Number(data.region.avgDailyIncomeInUSD)
-    * Number(data.region.avgDailyIncomePopulation) * timeToElapse) / days);
+    * Number(data.region.avgDailyIncomePopulation)) / Number(days));
   return {
     currentlyInfected,
     infectionsByRequestedTime,
