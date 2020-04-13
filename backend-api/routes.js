@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const js2xmlparser = require('js2xmlparser');
-const estimator = require('../estimator');
+const estimator = require('../src/estimator');
 const requestCountIncrementer = require('./request-counter');
 
 const router = express.Router();
