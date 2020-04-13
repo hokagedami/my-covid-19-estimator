@@ -6,7 +6,6 @@
         <language minSize="57" name="JavaScript" />
       </Languages>
     </inspection_tool>
-    <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="JSCheckFunctionSignatures" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
   </profile>
 </component>
