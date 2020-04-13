@@ -25,14 +25,18 @@ const impactEstimator = (data, severe) => {
     * powerCalc(2, factorCalculator(timeToElapse, periodType));
   const severeCasesByRequestedTime = 0.15 * infectionsByRequestedTime;
   const availableBeds = 0.35 * totalHospitalBeds;
-  const hospitalBedsByRequestedTime = parseInt((availableBeds - severeCasesByRequestedTime)
-    .toFixed(0), 10);
-  const casesForICUByRequestedTime = parseInt((0.05 * infectionsByRequestedTime)
-    .toFixed(0), 10);
+  const hospitalBedsByRequestedTime = Math.sign(availableBeds - severeCasesByRequestedTime) === -1
+    ? parseInt((availableBeds - severeCasesByRequestedTime), 10)
+    : Math.floor(availableBeds - severeCasesByRequestedTime);
+  const casesForICUByRequestedTime = parseInt((0.05 * infectionsByRequestedTime), 10);
   const casesForVentilatorsByRequestedTime = parseInt((0.02 * infectionsByRequestedTime)
     .toFixed(0), 10);
-  const dollarsInFlight = parseInt((infectionsByRequestedTime * data.region.avgDailyIncomeInUSD
-    * data.region.avgDailyIncomePopulation * timeToElapse), 10);
+  const dollarsInFlight = Math.sign(infectionsByRequestedTime * data.region.avgDailyIncomeInUSD
+    * data.region.avgDailyIncomePopulation * timeToElapse) === -1
+    ? parseInt((infectionsByRequestedTime * data.region.avgDailyIncomeInUSD
+    * data.region.avgDailyIncomePopulation * timeToElapse), 10)
+    : Math.floor(infectionsByRequestedTime * data.region.avgDailyIncomeInUSD
+      * data.region.avgDailyIncomePopulation * timeToElapse);
   return {
     currentlyInfected,
     infectionsByRequestedTime,
