@@ -23,22 +23,13 @@ const impactEstimator = (data, severe) => {
   const { periodType, totalHospitalBeds, timeToElapse } = data;
   const infectionsByRequestedTime = currentlyInfected
     * powerCalc(2, factorCalculator(timeToElapse, periodType));
-  const severeCasesByRequestedTime = ((15 + Number.EPSILON) / 100) * infectionsByRequestedTime;
-  const availableBeds = ((15 + Number.EPSILON) / 100) * totalHospitalBeds;
-  const hospitalBedsByRequestedTime = Math.sign(availableBeds - severeCasesByRequestedTime) === -1
-    ? parseInt((availableBeds - severeCasesByRequestedTime).toFixed(0), 10)
-    : Math.floor(availableBeds - severeCasesByRequestedTime);
-  const casesForICUByRequestedTime = parseInt((((5 + Number.EPSILON) / 100)
-    * infectionsByRequestedTime), 10);
-  const casesForVentilatorsByRequestedTime = parseInt((((2 + Number.EPSILON) / 100)
-    * infectionsByRequestedTime)
-    .toFixed(0), 10);
-  const dollarsInFlight = Math.sign(infectionsByRequestedTime * data.region.avgDailyIncomeInUSD
-    * data.region.avgDailyIncomePopulation * timeToElapse) === -1
-    ? parseInt((infectionsByRequestedTime * data.region.avgDailyIncomeInUSD
-    * data.region.avgDailyIncomePopulation * timeToElapse).toFixed(0), 10)
-    : Math.floor(infectionsByRequestedTime * data.region.avgDailyIncomeInUSD
-      * data.region.avgDailyIncomePopulation * timeToElapse);
+  const severeCasesByRequestedTime = Math.trunc(0.15 * infectionsByRequestedTime);
+  const availableBeds = Math.trunc(0.35 * totalHospitalBeds);
+  const hospitalBedsByRequestedTime = Math.trunc(availableBeds - severeCasesByRequestedTime);
+  const casesForICUByRequestedTime = Math.trunc(0.05 * infectionsByRequestedTime);
+  const casesForVentilatorsByRequestedTime = Math.trunc(0.02 * infectionsByRequestedTime);
+  const dollarsInFlight = Math.trunc(infectionsByRequestedTime * data.region.avgDailyIncomeInUSD
+    * data.region.avgDailyIncomePopulation * timeToElapse);
   return {
     currentlyInfected,
     infectionsByRequestedTime,
